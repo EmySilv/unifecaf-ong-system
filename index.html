@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento de Doações</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="marca">Gerenciamento de Doações</div>
+    </div>
+    <nav>
+      <div class="nav-item ativo" onclick="irPara('painel')">
+        Painel
+      </div>
+      <div class="nav-item" onclick="irPara('doadores')">
+        Doadores
+      </div>
+      <div class="nav-item" onclick="irPara('doacoes')">
+        Doações
+      </div>
+      <div class="nav-item" onclick="irPara('relatorio')">
+        Relatório
+      </div>
+    </nav>
+    <div class="sidebar-rodape">Projeto Extensão — ADS<br>UniFECAF 2025</div>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="conteudo">
+
+    <!-- ── PAINEL ── -->
+    <section id="painel" class="pagina ativa">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Painel Geral</div>
+          <div class="page-sub">Visão rápida das doações recebidas</div>
+        </div>
+      </div>
+
+      <div class="cards-grid" id="cards-painel"></div>
+
+      <div class="tabela-wrap">
+        <div class="tabela-header">
+          <span class="tabela-titulo">Últimas Doações</span>
+          <button class="btn btn-principal btn-sm" onclick="irPara('doacoes')">Ver todas</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Doador</th>
+              <th>Item</th>
+              <th>Quantidade</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-ultimas"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── DOADORES ── -->
+    <section id="doadores" class="pagina">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Doadores</div>
+          <div class="page-sub">Pessoas e organizações cadastradas</div>
+        </div>
+        <button class="btn btn-principal" onclick="abrirModalDoador()">＋ Novo Doador</button>
+      </div>
+
+      <div class="tabela-wrap">
+        <div class="tabela-header">
+          <span class="tabela-titulo" id="contagem-doadores">0 doadores</span>
+          <div class="busca-wrap">
+            <span class="busca-ico">🔍</span>
+            <input type="text" placeholder="Buscar por nome..." oninput="filtrarDoadores(this.value)" style="width:220px">
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Contato</th>
+              <th>Doações</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-doadores"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── DOAÇÕES ── -->
+    <section id="doacoes" class="pagina">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Doações</div>
+          <div class="page-sub">Registro de todos os itens recebidos</div>
+        </div>
+        <button class="btn btn-principal" onclick="abrirModalDoacao()">＋ Nova Doação</button>
+      </div>
+
+      <div class="tabela-wrap">
+        <div class="tabela-header">
+          <span class="tabela-titulo" id="contagem-doacoes">0 doações</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select onchange="filtrarDoacoes()" id="filtro-tipo" style="padding:7px 10px;border:1.5px solid var(--cinza-2);border-radius:var(--radius);font-size:13px;">
+              <option value="">Todos os tipos</option>
+              <option>Alimento</option>
+              <option>Roupa</option>
+              <option>Higiene</option>
+              <option>Medicamento</option>
+              <option>Brinquedo</option>
+              <option>Móvel / Utensílio</option>
+              <option>Outro</option>
+            </select>
+            <div class="busca-wrap">
+              <span class="busca-ico">🔍</span>
+              <input type="text" placeholder="Buscar..." oninput="filtrarDoacoes()" id="busca-doacoes" style="width:180px">
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Doador</th>
+              <th>Item</th>
+              <th>Tipo</th>
+              <th>Quantidade</th>
+              <th>Data</th>
+              <th>Obs.</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-doacoes"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── RELATÓRIO ── -->
+    <section id="relatorio" class="pagina">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Relatório Mensal</div>
+          <div class="page-sub">Resumo das doações por período</div>
+        </div>
+        <button class="btn btn-principal" onclick="imprimirRelatorio()">🖨️ Imprimir / Salvar PDF</button>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div style="display:flex;gap:16px;align-items:flex-end;">
+          <div class="form-group" style="margin:0">
+            <label>Mês</label>
+            <select id="rel-mes" onchange="gerarRelatorio()" style="padding:8px 12px;border:1.5px solid var(--cinza-2);border-radius:var(--radius);font-size:13px;">
+              <option value="1">Janeiro</option>
+              <option value="2">Fevereiro</option>
+              <option value="3">Março</option>
+              <option value="4">Abril</option>
+              <option value="5">Maio</option>
+              <option value="6">Junho</option>
+              <option value="7">Julho</option>
+              <option value="8">Agosto</option>
+              <option value="9">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Ano</label>
+            <input type="number" id="rel-ano" value="2025" min="2020" max="2099"
+              onchange="gerarRelatorio()"
+              style="padding:8px 12px;border:1.5px solid var(--cinza-2);border-radius:var(--radius);font-size:13px;width:90px;">
+          </div>
+        </div>
+      </div>
+
+      <div id="conteudo-relatorio" class="tabela-wrap" style="padding:24px;"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL DOADOR -->
+<div class="modal-overlay" id="modal-doador">
+  <div class="modal">
+    <div class="modal-titulo" id="titulo-modal-doador">Novo Doador</div>
+    <div class="form-group">
+      <label>Nome completo *</label>
+      <input type="text" id="d-nome" placeholder="Ex: Maria Silva">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo</label>
+        <select id="d-tipo">
+          <option>Pessoa Física</option>
+          <option>Empresa</option>
+          <option>Igreja / Instituição</option>
+          <option>Anônimo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" id="d-tel" placeholder="(11) 99999-9999">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>E-mail</label>
+      <input type="email" id="d-email" placeholder="email@exemplo.com">
+    </div>
+    <div class="form-group">
+      <label>Observações</label>
+      <textarea id="d-obs" rows="2" placeholder="Informação adicional (opcional)"></textarea>
+    </div>
+    <div class="form-acoes">
+      <button class="btn btn-ghost" onclick="fecharModal('modal-doador')">Cancelar</button>
+      <button class="btn btn-principal" onclick="salvarDoador()">Salvar Doador</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DOAÇÃO -->
+<div class="modal-overlay" id="modal-doacao">
+  <div class="modal">
+    <div class="modal-titulo" id="titulo-modal-doacao">Nova Doação</div>
+    <div class="form-group">
+      <label>Doador *</label>
+      <select id="dc-doador"></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo de Item *</label>
+        <select id="dc-tipo">
+          <option>Alimento</option>
+          <option>Roupa</option>
+          <option>Higiene</option>
+          <option>Medicamento</option>
+          <option>Brinquedo</option>
+          <option>Móvel / Utensílio</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Data *</label>
+        <input type="date" id="dc-data">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Descrição do Item *</label>
+        <input type="text" id="dc-item" placeholder="Ex: Arroz 5kg">
+      </div>
+      <div class="form-group">
+        <label>Quantidade *</label>
+        <input type="text" id="dc-qtd" placeholder="Ex: 10 pacotes">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Observações</label>
+      <textarea id="dc-obs" rows="2" placeholder="Validade, condição do item, etc."></textarea>
+    </div>
+    <div class="form-acoes">
+      <button class="btn btn-ghost" onclick="fecharModal('modal-doacao')">Cancelar</button>
+      <button class="btn btn-principal" onclick="salvarDoacao()">Registrar Doação</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="main.js"></script>
+</body>
+</html>

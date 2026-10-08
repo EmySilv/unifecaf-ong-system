@@ -48,7 +48,7 @@
 
       <div class="tabela-wrap">
         <div class="tabela-header">
-          <span class="tabela-titulo">Últimas Doações</span>
+          <span class="tabela-titulo">Últimas Doações </span>
           <button class="btn btn-principal btn-sm" onclick="irPara('doacoes')">Ver todas</button>
         </div>
         <table>
@@ -123,7 +123,7 @@
               <option>Outro</option>
             </select>
             <div class="busca-wrap">
-              <span class="busca-ico">🔍</span>
+              <span class="busca-ico"></span>
               <input type="text" placeholder="Buscar..." oninput="filtrarDoacoes()" id="busca-doacoes" style="width:180px">
             </div>
           </div>
@@ -277,6 +277,12 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+
+<!-- Configuração e lógica do projeto -->
+<script src="firebase/firebase-config.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

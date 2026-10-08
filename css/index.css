@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arial:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
 
 :root {
   --principal:   #D4921A;
@@ -20,7 +20,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Arial', sans-serif;
   background: var(--cinza-1);
   color: var(--texto);
   min-height: 100vh;
